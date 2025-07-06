@@ -215,6 +215,11 @@ public class SpotifyTokenTracker {
 
 				return secretByteArray;
 			} else {
+				log.debug("CONTENT:");
+				log.debug(scriptContent);
+				log.debug("---");
+				log.debug("MATCHER:");
+				log.debug(SECRET_PATTERN.pattern());
 				log.error("No secret array found in script: {}", scriptUrl);
 				return null;
 			}
@@ -231,6 +236,7 @@ public class SpotifyTokenTracker {
 			HttpGet request = new HttpGet(homepageUrl);
 			try (CloseableHttpResponse response = client.execute(request)) {
 				String html = EntityUtils.toString(response.getEntity());
+				log.debug("HTML: {}", html);
 				Document doc = Jsoup.parse(html);
 				Elements scriptElements = doc.select("script[src]");
 				List<String> scriptUrls = new ArrayList<>();
